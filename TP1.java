@@ -124,7 +124,7 @@ public class TP1 {
             System.out.println("[3]Encontrar um registro (Informe ID)");
             System.out.println("[4]Atualizar um registro (Informe ID, Nome, CPF, Estado e Saldo)");
             System.out.println("[5]Deletar um registro (Informe ID)");
-            System.out.println("[6]Finalizar programa)");
+            System.out.println("[6]Finalizar programa");
             op = scan.nextInt();
 
             switch (op) {
