@@ -1,10 +1,5 @@
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.lang.invoke.SwitchPoint;
-import java.util.Scanner;
-import java.io.FileInputStream;
-import java.io.DataOutputStream;
-import java.io.DataInputStream;
+import java.io.*;
+import java.util.*;
 
 class Conta {
     // Variaveis para cada conta
