@@ -39,7 +39,7 @@ public class TP1 {
         float saldo;
         int id = getId();
         do {
-            crud.readAll();
+           // crud.readAll();
             menu();
 
             op = scan.nextByte();
@@ -68,7 +68,14 @@ public class TP1 {
                     crud.bankTransfer(id1, id2, value);
                     break;
                 case 3:
-
+                    System.out.print("Favor informar ID da conta que procura:\n> ");
+                    int searchID = scan.nextInt();
+                    Conta searchedAccount = crud.readId(searchID);
+                    if (searchedAccount != null) {
+                        System.out.println(searchedAccount);
+                    } else {
+                        System.out.println("Conta não encontrada.");
+                    }
                     break;
                 case 4:
 
