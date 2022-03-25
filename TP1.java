@@ -39,7 +39,7 @@ public class TP1 {
         float saldo;
         int id = getId();
         do {
-           // crud.readAll();
+            crud.readAll();
             menu();
 
             op = scan.nextByte();
@@ -81,7 +81,13 @@ public class TP1 {
 
                     break;
                 case 5:
-
+                    System.out.print("Favor informar ID da conta que deseja deletar:\n> ");
+                    int deleteID = scan.nextInt();
+                   if (crud.delete(deleteID)) {
+                       System.out.println("Conta deletada com sucesso.");
+                   } else {
+                       System.out.println("ERRO: Não foi possível deletar a conta.");
+                   }
                     break;
                 default:
 

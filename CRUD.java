@@ -39,7 +39,6 @@ public class CRUD {
             arq.writeChar(' '); // Escreve a Lapide do registro
             arq.writeInt(array.length); // Escreve o tamanho do registro
             arq.write(array); // Escreve o registro em si
-            System.out.println(array);
             arq.close();
 
         } catch (IOException e) {
