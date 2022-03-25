@@ -39,7 +39,6 @@ public class TP1 {
         float saldo;
         int id = getId();
         do {
-            crud.readAll();
             menu();
 
             op = scan.nextByte();
