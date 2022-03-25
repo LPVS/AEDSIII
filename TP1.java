@@ -41,16 +41,17 @@ public class TP1 {
             menu();
 
             op = scan.nextByte();
+            scan.nextLine();
             switch (op) {
                 case 1:
                     id++;
-                    System.out.print("Favor informar Nome:");
+                    System.out.print("Favor informar Nome:\n> ");
                     nome = scan.nextLine();
-                    System.out.print("Favor informar CPF:");
+                    System.out.print("Favor informar CPF:\n> ");
                     cpf = scan.nextLine();
-                    System.out.print("Favor informar Estado:");
+                    System.out.print("Favor informar Estado:\n> ");
                     estado = scan.nextLine();
-                    System.out.print("Favor informar Saldo:");
+                    System.out.print("Favor informar Saldo:\n> ");
                     saldo = scan.nextFloat();
                     conta = new Conta(id, nome, cpf, estado, saldo);
                     crud.create(conta, id);
