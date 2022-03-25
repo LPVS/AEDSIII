@@ -3,7 +3,7 @@ import java.io.*;
 
 public class TP1 {
 
-    //Método simples para menu
+    // Método simples para menu
     public static void menu() {
         System.out.println("[Terminal]\n    > Seja bem vindo, por favor escolha o número que deseja:");
         System.out.println("[1]Criar uma conta");
@@ -12,7 +12,7 @@ public class TP1 {
         System.out.println("[3]Encontrar um registro (Informar ID)");
         System.out.println("[4]Atualizar um registro (Informar ID, Nome, CPF, Estado e Saldo)");
         System.out.println("[5]Deletar um registro (Informar ID)");
-        System.out.println("[6]Finalizar programa");
+        System.out.print("[6]Finalizar programa\n> ");
     }
 
     // Método para ler o cabecalho do arquivo
@@ -20,15 +20,16 @@ public class TP1 {
         RandomAccessFile file;
         int newId;
         try {
-            file = new RandomAccessFile("clube.db", "rw");
+            file = new RandomAccessFile("Contas.db", "rw");
             newId = file.readInt();
             file.close();
             return newId;
-        } catch(IOException e) {
+        } catch (IOException e) {
             System.out.println("Erro ao ler o último id a ser inserido!");
             return -1;
         }
     }
+
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
         CRUD crud = new CRUD();
@@ -36,8 +37,9 @@ public class TP1 {
         String nome, cpf, estado;
         byte op;
         float saldo;
-        int id = -1;
+        int id = getId();
         do {
+            crud.readAll();
             menu();
 
             op = scan.nextByte();
@@ -57,7 +59,13 @@ public class TP1 {
                     crud.create(conta, id);
                     break;
                 case 2:
-
+                    System.out.print("Favor informar ID da conta que REALIZARÁ o depósito:\n> ");
+                    int id1 = scan.nextInt();
+                    System.out.print("Favor informar ID da conta que RECEBERÁ o depósito:\n> ");
+                    int id2 = scan.nextInt();
+                    System.out.print("Favor informar o valor da transferência:\n> ");
+                    float value = scan.nextFloat();
+                    crud.bankTransfer(id1, id2, value);
                     break;
                 case 3:
 
