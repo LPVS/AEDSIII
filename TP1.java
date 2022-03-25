@@ -78,16 +78,32 @@ public class TP1 {
                     }
                     break;
                 case 4:
-
+                    System.out.print("Favor informar ID da conta que deseja atualizar:\n> ");
+                    int updateID = scan.nextInt();
+                    scan.nextLine();
+                    System.out.print("Favor informar Nome:\n> ");
+                    nome = scan.nextLine();
+                    System.out.print("Favor informar CPF:\n> ");
+                    cpf = scan.nextLine();
+                    System.out.print("Favor informar Estado:\n> ");
+                    estado = scan.nextLine();
+                    System.out.print("Favor informar Saldo:\n> ");
+                    saldo = scan.nextFloat();
+                    conta = new Conta(updateID, nome, cpf, estado, saldo);
+                    if (crud.update(conta)) {
+                        System.out.println("Conta atualizada com sucesso.");
+                    } else {
+                        System.out.println("ERRO: Não foi possível atualizar a conta.");
+                    }
                     break;
                 case 5:
                     System.out.print("Favor informar ID da conta que deseja deletar:\n> ");
                     int deleteID = scan.nextInt();
-                   if (crud.delete(deleteID)) {
-                       System.out.println("Conta deletada com sucesso.");
-                   } else {
-                       System.out.println("ERRO: Não foi possível deletar a conta.");
-                   }
+                    if (crud.delete(deleteID)) {
+                        System.out.println("Conta deletada com sucesso.");
+                    } else {
+                        System.out.println("ERRO: Não foi possível deletar a conta.");
+                    }
                     break;
                 default:
 
