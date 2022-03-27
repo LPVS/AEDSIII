@@ -104,8 +104,12 @@ public class TP1 {
                         System.out.println("ERRO: Não foi possível deletar a conta.");
                     }
                     break;
+                case 6:
+                    System.out.println("\nEncerrando programa");
+                    break;
                 default:
-
+                    System.out.println("ERRO: Opção inválida");
+                    op = 0;
                     break;
             }
 

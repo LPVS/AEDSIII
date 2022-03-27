@@ -66,18 +66,6 @@ public class Conta {
         this.saldoConta += valor;
     }
 
-    public void find(int id) {
-        // Criar um método com o File Stream pra achar o id
-    }
-
-    public void update(Conta conta) {
-        // Criar um método com o File Stream pra atualizar os registros do id
-    }
-
-    public void delete(int id) {
-        // Criar um método com o File Stream pra deletar os registros do id
-    }
-
     public String toString() {
         return "\nID: " + idConta + "\nNome: " + nomePessoa + "\nCPF: " + cpf + "\nEstado: " + estado
                 + "\nTransferencias: " + transferenciasRealizadas + "\nSaldo: " + saldoConta;

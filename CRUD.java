@@ -47,21 +47,27 @@ public class CRUD {
     }
 
     // Receba uma conta com os dados atualizados para registrar no arquivo
+    // IMPORTANTE: a sequencia de comandos desse método será bastante utilizada
+    // pelos outros métodos, com pequenas variações
     public boolean update(Conta conta) {
         try {
+
             long position;
             char lapide;
             byte[] array;
             int size;
             Conta tmpConta;
 
+            // Abre o arquivo e pula o cabecalho
             arq = new RandomAccessFile(fileName, "rw");
-            arq.seek(4); // Pula o cabecalho
+            arq.seek(4);
 
+            // Inicia um loop ate encontrar o id ou chegar no fim do arquivo
             while (arq.getFilePointer() < arq.length()) {
-                position = arq.getFilePointer();
-                lapide = arq.readChar();
-                size = arq.readInt();
+
+                position = arq.getFilePointer(); // Guarda a posicao inicial do registro
+                lapide = arq.readChar(); // Guarda o estado da lapide
+                size = arq.readInt(); // guarda o tamanho do registro
                 array = new byte[size]; // Cria array com tamanho do registro
                 arq.read(array);
 
@@ -82,7 +88,7 @@ public class CRUD {
                         } else {
                             arq.seek(arq.length());
                             arq.writeChar(' ');
-                            arq.writeInt(array.length);
+                            arq.writeInt(array.length); // escreve o tamanho do registro
                             arq.write(array); // Escreve o registro no final do arquivo
                             delete(tmpConta.getId()); // Apaga o registro na posicao original
                             arq.close();
@@ -117,7 +123,7 @@ public class CRUD {
                 position = arq.getFilePointer();
                 lapide = arq.readChar();
                 size = arq.readInt();
-                array = new byte[size];// Cria array com tamanho do registro
+                array = new byte[size];
                 arq.read(array);
 
                 // Confere se o registro nao esta "apagado"
@@ -126,9 +132,10 @@ public class CRUD {
                     tmpConta = new Conta();
                     tmpConta.fromByteArray(array);
 
+                    // confere se o ID é o mesmo do parametro
                     if (tmpConta.getId() == id) {
-                        arq.seek(position);
-                        arq.writeChar('*');
+                        arq.seek(position); // vai ate a lapide
+                        arq.writeChar('*'); // "deleta" o arquivo
                         arq.close();
                         return true;
                     }
@@ -186,15 +193,19 @@ public class CRUD {
         Conta debitar = readId(id1);
         Conta creditar = readId(id2);
 
-        debitar.transferDone();
-        creditar.transferDone();
-        debitar.balance(-1 * valor);
-        creditar.balance(valor);
+        if (debitar != null && creditar != null) {
+            debitar.transferDone();
+            creditar.transferDone();
+            debitar.balance(-1 * valor);
+            creditar.balance(valor);
 
-        if (update(debitar) && update(creditar)) {
-            System.out.println("\nAVISO: Transfêrencia concluida e contas atualizadas.");
-        } else {
-            System.out.println("\nERRO!: Não foi possível concluir a transferência (BANK_TRANSFER).");
+            if (update(debitar) && update(creditar)) {
+                System.out.println("\nAVISO: Transfêrencia concluida e contas atualizadas.");
+            } else {
+                System.out.println("\nERRO!: Não foi possível concluir a transferência (BANK_TRANSFER).");
+            }
+        } else{
+            System.out.println("\nERRO!: ID de conta inválido (BANK_TRANSFER).");
         }
     }
 
