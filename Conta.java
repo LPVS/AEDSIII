@@ -6,7 +6,7 @@ public class Conta {
     protected String nomePessoa;
     protected String cpf;
     protected String estado;
-    protected short transferenciasRealizadas;
+    protected int transferenciasRealizadas;
     protected float saldoConta;
 
     // Métodos Construtores

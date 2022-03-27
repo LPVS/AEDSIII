@@ -101,6 +101,7 @@ public class CRUD {
             return false;
 
         } catch (Exception e) {
+            System.out.println("\nERRO!: Conta inválida (UPDATE).");
             return false;
         }
 
@@ -235,5 +236,4 @@ public class CRUD {
             System.out.println("ERRO!: Falha ao imprimir todas as contas do arquivo (READ_ALL).");
         }
     }
-
 }

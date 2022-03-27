@@ -112,7 +112,6 @@ public class TP1 {
                     op = 0;
                     break;
             }
-
         } while (op < 6);
         scan.close();
     }
