@@ -1,5 +1,6 @@
 import java.io.*;
 
+
 public class Conta {
     // Variaveis para cada conta
     protected int idConta;
@@ -7,7 +8,7 @@ public class Conta {
     protected String cpf;
     protected String estado;
     protected int transferenciasRealizadas;
-    protected float saldoConta;
+    protected int saldoConta;
 
     // Métodos Construtores
     public Conta() {
@@ -19,7 +20,7 @@ public class Conta {
         saldoConta = 0;
     }
 
-    public Conta(int id, String nome, String cpf, String estado, float saldo) {
+    public Conta(int id, String nome, String cpf, String estado, int saldo) {
         this.idConta = id;
         this.nomePessoa = nome;
         this.cpf = cpf;
@@ -32,12 +33,12 @@ public class Conta {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         DataOutputStream dos = new DataOutputStream(baos);
 
-        dos.write(idConta);
+        dos.writeInt(idConta);
         dos.writeUTF(nomePessoa);
         dos.writeUTF(cpf);
         dos.writeUTF(estado);
-        dos.write(transferenciasRealizadas);
-        dos.writeFloat(saldoConta);
+        dos.writeInt(transferenciasRealizadas);
+        dos.writeInt(saldoConta);
 
         return baos.toByteArray();
     }
@@ -46,12 +47,12 @@ public class Conta {
         ByteArrayInputStream bais = new ByteArrayInputStream(ba);
         DataInputStream dis = new DataInputStream(bais);
 
-        idConta = dis.readByte();
+        idConta = dis.readInt();
         nomePessoa = dis.readUTF();
         cpf = dis.readUTF();
         estado = dis.readUTF();
-        transferenciasRealizadas = dis.readByte();
-        saldoConta = dis.readByte();
+        transferenciasRealizadas = dis.readInt();
+        saldoConta = dis.readInt();
     }
 
     public int getId() {
@@ -62,7 +63,7 @@ public class Conta {
         this.transferenciasRealizadas++;
     }
 
-    public void balance(float valor) {
+    public void balance(int valor) {
         this.saldoConta += valor;
     }
 

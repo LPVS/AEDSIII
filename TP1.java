@@ -36,7 +36,7 @@ public class TP1 {
         Conta conta;
         String nome, cpf, estado;
         byte op;
-        float saldo;
+        int saldo;
         int id = getId();
         do {
             menu();
@@ -53,17 +53,17 @@ public class TP1 {
                     System.out.print("Favor informar Estado:\n> ");
                     estado = scan.nextLine();
                     System.out.print("Favor informar Saldo:\n> ");
-                    saldo = scan.nextFloat();
+                    saldo = scan.nextInt();
                     conta = new Conta(id, nome, cpf, estado, saldo);
                     crud.create(conta, id);
                     break;
                 case 2:
-                    System.out.print("Favor informar ID da conta que REALIZARÁ o depósito:\n> ");
+                    System.out.print("Favor informar ID da conta que REALIZARA o depósito:\n> ");
                     int id1 = scan.nextInt();
-                    System.out.print("Favor informar ID da conta que RECEBERÁ o depósito:\n> ");
+                    System.out.print("Favor informar ID da conta que RECEBERA o depósito:\n> ");
                     int id2 = scan.nextInt();
                     System.out.print("Favor informar o valor da transferência:\n> ");
-                    float value = scan.nextFloat();
+                    int value = scan.nextInt();
                     crud.bankTransfer(id1, id2, value);
                     break;
                 case 3:
@@ -87,7 +87,7 @@ public class TP1 {
                     System.out.print("Favor informar Estado:\n> ");
                     estado = scan.nextLine();
                     System.out.print("Favor informar Saldo:\n> ");
-                    saldo = scan.nextFloat();
+                    saldo = scan.nextInt();
                     conta = new Conta(updateID, nome, cpf, estado, saldo);
                     if (crud.update(conta)) {
                         System.out.println("Conta atualizada com sucesso.");

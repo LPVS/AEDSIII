@@ -11,7 +11,7 @@ public class CRUD {
             if (!check) {
                 try {
 
-                    int id = -1;
+                    int id = 0;
                     arq = new RandomAccessFile(fileName, "rw");
                     arq.writeInt(id);
                     arq.close();
@@ -190,7 +190,7 @@ public class CRUD {
 
     // Recebe um valor e duas contas, uma para debitar e outra para creditar, e
     // atualiza os registros das duas
-    public void bankTransfer(int id1, int id2, float valor) {
+    public void bankTransfer(int id1, int id2, int valor) {
         Conta debitar = readId(id1);
         Conta creditar = readId(id2);
 
