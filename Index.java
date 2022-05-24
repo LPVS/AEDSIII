@@ -10,7 +10,9 @@ public class Index  {
     protected int id;
     protected long end;
 
-    //Métodos construtores
+    /**
+     * Método contrutor padrão para abrir o arquivo
+     */
     public Index() {
         try {
             boolean exists = (new File(indexFileName)).exists();
@@ -27,6 +29,11 @@ public class Index  {
             System.out.println("Erro! " + e.getMessage());
         }
     }
+    /**
+     * Método para construir um objeto index
+     * @param id : ID da conta a ser salva
+     * @param end : Endereco da conta no arquivo original
+     */
     public Index(int id, long end) {
         this.id = id;
         this.end = end;
@@ -77,7 +84,7 @@ public class Index  {
     /**
      * Realiza uma busca binaria no arquivo de indices
      * @param idSearch : id a ser pesquisado no index
-     * @return : posicao do objeto no original
+     * @return : posicao do objeto no original, '-1' se não existir
      */
     public long binSearch(int idSearch) {
         try {
@@ -126,7 +133,7 @@ public class Index  {
 
             while(arq.getFilePointer() < arq.length()) {
                 if(arq.readInt() == index.getId()) { // Confere se o id do index e o mesmo do arquivo
-                    arq.writeLong(index.end);  // Atualiza o valor do endereco
+                    arq.writeLong(index.getEnd());  // Atualiza o valor do endereco
                     return true;
                 }
             }

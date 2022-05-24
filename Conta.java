@@ -1,6 +1,5 @@
 import java.io.*;
 
-
 public class Conta {
     // Variaveis para cada conta
     protected int idConta;
