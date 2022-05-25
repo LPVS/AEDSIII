@@ -25,22 +25,24 @@ public class InvertedList {
         }
     }
 
-    /**
-     * Método para contar a quantidade de palavras que tem em um nome
+     /**
+     * Deleta indices do arquivo e atualiza
      * 
-     * @param name nome a ser pesquisado
-     * @return quantidade de palavras no nome
+     * @param word     palavra atualizada
+     * @param id       id deletado
+     * @param fileName nome do arquivo que será lido
+     * @param isDelete qual operacao deve ser feita
      */
-    public int checkWordCount(String name) {
-        int wordCount = 0;
+    public void updateList(String word, byte id, String fileName, boolean isDelete) {
+        try {
+            deleteAllWordsRelatedToId(id, fileName);
 
-        for (int i = 0; i < name.length(); i++) {
-            if (name.charAt(i) == ' ') {
-                wordCount++;
+            if (isDelete == false) {
+                createListFile(word, id, fileName);
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-
-        return wordCount;
     }
 
     /**
@@ -178,72 +180,6 @@ public class InvertedList {
     }
 
     /**
-     * Remove palavras relacionadas ao id
-     * 
-     * @param id -> id que será deletado
-     */
-    public void deleteAllWordsRelatedToId(byte id, String fileName) {
-        try {
-            file = new RandomAccessFile(fileName, "rw");
-
-            long index;
-
-            while (file.getFilePointer() < file.length()) {
-                file.readUTF();
-
-                for (int i = 0; i < 5; i++) {
-                    index = file.getFilePointer();
-                    if (file.readByte() == id) {
-                        file.seek(index);
-                        file.writeByte(-1);
-                    }
-                }
-                file.readLong();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * Deleta indices do arquivo e atualiza
-     * 
-     * @param word     palavra atualizada
-     * @param id       id deletado
-     * @param fileName nome do arquivo que será lido
-     * @param isDelete qual operacao deve ser feita
-     */
-    public void updateList(String word, byte id, String fileName, boolean isDelete) {
-        try {
-            deleteAllWordsRelatedToId(id, fileName);
-
-            if (isDelete == false) {
-                createListFile(word, id, fileName);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * checa se o id está na lista
-     * 
-     * @param ids lista de ids
-     * @param id  id que será procurado
-     * @return se achou o id
-     */
-    public boolean idExistsInArray(ArrayList<Byte> ids, byte id) {
-        for (Byte idList : ids) {
-            if (idList == id) {
-                return true;
-            } else {
-                break;
-            }
-        }
-        return false;
-    }
-
-    /**
      * busca e mostra ids para a palavra inserida
      * 
      * @param word     palavras que serao buscadas
@@ -291,5 +227,69 @@ public class InvertedList {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Remove palavras relacionadas ao id
+     * 
+     * @param id -> id que será deletado
+     */
+    public void deleteAllWordsRelatedToId(byte id, String fileName) {
+        try {
+            file = new RandomAccessFile(fileName, "rw");
+
+            long index;
+
+            while (file.getFilePointer() < file.length()) {
+                file.readUTF();
+
+                for (int i = 0; i < 5; i++) {
+                    index = file.getFilePointer();
+                    if (file.readByte() == id) {
+                        file.seek(index);
+                        file.writeByte(-1);
+                    }
+                }
+                file.readLong();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * checa se o id está na lista
+     * 
+     * @param ids lista de ids
+     * @param id  id que será procurado
+     * @return se achou o id
+     */
+    public boolean idExistsInArray(ArrayList<Byte> ids, byte id) {
+        for (Byte idList : ids) {
+            if (idList == id) {
+                return true;
+            } else {
+                break;
+            }
+        }
+        return false;
+    }
+
+     /**
+     * Método para contar a quantidade de palavras que tem em um nome
+     * 
+     * @param name nome a ser pesquisado
+     * @return quantidade de palavras no nome
+     */
+    public int checkWordCount(String name) {
+        int wordCount = 0;
+
+        for (int i = 0; i < name.length(); i++) {
+            if (name.charAt(i) == ' ') {
+                wordCount++;
+            }
+        }
+
+        return wordCount;
     }
 }
