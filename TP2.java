@@ -12,7 +12,8 @@ public class TP2 {
         System.out.println("[3] Encontrar um registro (Informar ID)");
         System.out.println("[4] Atualizar um registro (Informar ID, Nome, CPF, Cidade e Saldo)");
         System.out.println("[5] Deletar um registro (Informar ID)");
-        System.out.println("[6]Finalizar programa \n>Seja bem vindo, por favor escolha o número que deseja:");
+        System.out.println("[6] Buscar na lista");
+        System.out.println("[7] Finalizar programa \n>Seja bem vindo, por favor escolha o número que deseja:");
     }
 
     // Método para ler o cabecalho do arquivo
@@ -38,6 +39,7 @@ public class TP2 {
         byte op;
         int saldo;
         int id = getId();
+        InvertedList invertedList = new InvertedList();
         do {
             menu();
 
@@ -57,6 +59,12 @@ public class TP2 {
                     saldo = scan.nextInt();
                     conta = new Conta(id, nome, cpf, cidade, saldo);
                     crud.create(conta, id);
+
+                    // lista de nomes
+                    invertedList.createListFile(nome, (byte) id, "invertedNameList.db"); 
+
+                    // lista de cidades
+                    invertedList.createListFile(cidade, (byte) id, "invertedCityList.db"); 
                     break;
                 // Tranferencia
                 case 2:
@@ -73,9 +81,9 @@ public class TP2 {
                     System.out.print("Favor informar ID da conta que procura:\n> ");
                     int searchID = scan.nextInt();
                     Conta searchedAccount = crud.readId(searchID);
-                    if(searchedAccount != null){
+                    if (searchedAccount != null) {
                         System.out.println(searchedAccount);
-                    } else{
+                    } else {
                         System.out.println("Conta não encontrada.");
                     }
                     break;
@@ -84,7 +92,7 @@ public class TP2 {
                     System.out.print("Favor informar ID da conta que deseja atualizar:\n> ");
                     int updateID = scan.nextInt();
 
-                    if(!crud.isSaved(updateID)){
+                    if (!crud.isSaved(updateID)) {
                         System.out.println("ERRO: Conta não existe");
                         break;
                     }
@@ -101,6 +109,8 @@ public class TP2 {
                     conta = new Conta(updateID, nome, cpf, cidade, saldo);
                     if (crud.update(conta)) {
                         System.out.println("Conta atualizada com sucesso.");
+                        invertedList.updateList(nome, (byte) id, "invertedNameList.db", false);
+                        invertedList.updateList(nome, (byte) id, "invertedCityList.db", false);
                     } else {
                         System.out.println("ERRO: Não foi possível atualizar a conta.");
                     }
@@ -115,8 +125,31 @@ public class TP2 {
                         System.out.println("ERRO: Não foi possível deletar a conta.");
                     }
                     break;
-                // Finalizar
                 case 6:
+                    System.out.println("Pelo que deseja buscar?");
+                    System.out.println("[1] Nome");
+                    System.out.print("[2] Cidade\n>> ");
+                    int searchOption = scan.nextInt();
+
+                    scan.nextLine();
+                    if (searchOption == 1) {
+                        // nome
+                        String name;
+                        System.out.print("Por qual nome deseja buscar?\n>> ");
+                        name = scan.nextLine();
+                        invertedList.searchList(name, "invertedNameList.db");
+                    } else if (searchOption == 2) {
+                        // cidade
+                        String city;
+                        System.out.print("Por qual cidade deseja buscar?\n>> ");
+                        city = scan.nextLine();
+                        invertedList.searchList(city, "invertedCityList.db");
+                    } else {
+                        System.out.println("A opcao escolhida nao foi valida");
+                    }
+                    break;
+                // Finalizar
+                case 7:
                     System.out.println("\nEncerrando programa");
                     break;
                 default:
@@ -124,7 +157,7 @@ public class TP2 {
                     op = 0;
                     break;
             }
-        } while (op < 6);
+        } while (op != 7);
         scan.close();
     }
 }

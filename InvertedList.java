@@ -13,7 +13,7 @@ public class InvertedList {
 
             if (nameExists == false && cityExists == false) {
                 try {
-                    file = new RandomAccessFile(invertedNameListFile, "rw"); 
+                    file = new RandomAccessFile(invertedNameListFile, "rw");
                     file = new RandomAccessFile(invertedCityListFile, "rw");
                     file.close();
                 } catch (Exception e) {
@@ -59,11 +59,8 @@ public class InvertedList {
             file.seek(0);
             while (file.getFilePointer() < file.length()) {
                 wordFile = file.readUTF();
-                file.readByte();
-                file.readByte();
-                file.readByte();
-                file.readByte();
-                file.readByte();
+                for (int i = 0; i < 5; i++)
+                    file.readByte();
                 file.readLong();
                 if (word.compareTo(wordFile) == 0) {
                     return true;
@@ -123,10 +120,10 @@ public class InvertedList {
     }
 
     /**
-     * Cria a lista invertida do nome ou cidade do cliente
+     * lista invertida com nome ou cidade do cliente
      * 
-     * @param name -> name ou cidade do cliente para ser utilizado na lista
-     * @param id   -> id do time a ser inserido na lista
+     * @param name nome ou cidade do cliente para ser utilizado na lista
+     * @param id  id do cliente a ser inserido na lista
      */
     public void createListFile(String name, byte id, String fileName) {
         String words[] = new String[checkWordCount(name)];
@@ -201,7 +198,6 @@ public class InvertedList {
                         file.writeByte(-1);
                     }
                 }
-
                 file.readLong();
             }
         } catch (Exception e) {
@@ -217,9 +213,8 @@ public class InvertedList {
      * @param fileName nome do arquivo que será lido
      * @param isDelete qual operacao deve ser feita
      */
-    public void updateLista(String word, byte id, String fileName, boolean isDelete) {
+    public void updateList(String word, byte id, String fileName, boolean isDelete) {
         try {
-            // Pega a posicao que precisa ser deletada e deleta do arquivo
             deleteAllWordsRelatedToId(id, fileName);
 
             if (isDelete == false) {
