@@ -8,11 +8,11 @@ public class TP2 {
         System.out.println("\n[Terminal]\n");
         System.out.println("[1] Criar uma conta");
         System.out.println(
-                "[2]Realizar uma tranferência (Informar duas contas - a primeira para debitar e outra para creditar - e o valor da transferência.)");
-        System.out.println("[3]Encontrar um registro (Informar ID)");
-        System.out.println("[4]Atualizar um registro (Informar ID, Nome, CPF, Estado e Saldo)");
-        System.out.println("[5]Deletar um registro (Informar ID)");
-        System.out.println("[6]Finalizar programa \n Seja bem vindo, por favor escolha o número que deseja:");
+                "[2] Realizar uma tranferência (Informar duas contas - a primeira para debitar e outra para creditar - e o valor da transferência.)");
+        System.out.println("[3] Encontrar um registro (Informar ID)");
+        System.out.println("[4] Atualizar um registro (Informar ID, Nome, CPF, Cidade e Saldo)");
+        System.out.println("[5] Deletar um registro (Informar ID)");
+        System.out.println("[6]Finalizar programa \n>Seja bem vindo, por favor escolha o número que deseja:");
     }
 
     // Método para ler o cabecalho do arquivo
@@ -34,7 +34,7 @@ public class TP2 {
         Scanner scan = new Scanner(System.in);
         CRUD crud = new CRUD();
         Conta conta;
-        String nome, cpf, estado;
+        String nome, cpf, cidade;
         byte op;
         int saldo;
         int id = getId();
@@ -51,11 +51,11 @@ public class TP2 {
                     nome = scan.nextLine();
                     System.out.print("Favor informar CPF:\n> ");
                     cpf = scan.nextLine();
-                    System.out.print("Favor informar Estado:\n> ");
-                    estado = scan.nextLine();
+                    System.out.print("Favor informar Cidade:\n> ");
+                    cidade = scan.nextLine();
                     System.out.print("Favor informar Saldo:\n> ");
                     saldo = scan.nextInt();
-                    conta = new Conta(id, nome, cpf, estado, saldo);
+                    conta = new Conta(id, nome, cpf, cidade, saldo);
                     crud.create(conta, id);
                     break;
                 // Tranferencia
@@ -72,11 +72,10 @@ public class TP2 {
                 case 3:
                     System.out.print("Favor informar ID da conta que procura:\n> ");
                     int searchID = scan.nextInt();
-                    if(crud.isSaved(searchID)){
-                        Conta searchedAccount = crud.readId(searchID);
+                    Conta searchedAccount = crud.readId(searchID);
+                    if(searchedAccount != null){
                         System.out.println(searchedAccount);
-                    }
-                    else {
+                    } else{
                         System.out.println("Conta não encontrada.");
                     }
                     break;
@@ -95,11 +94,11 @@ public class TP2 {
                     nome = scan.nextLine();
                     System.out.print("Favor informar CPF:\n> ");
                     cpf = scan.nextLine();
-                    System.out.print("Favor informar Estado:\n> ");
-                    estado = scan.nextLine();
+                    System.out.print("Favor informar Cidade:\n> ");
+                    cidade = scan.nextLine();
                     System.out.print("Favor informar Saldo:\n> ");
                     saldo = scan.nextInt();
-                    conta = new Conta(updateID, nome, cpf, estado, saldo);
+                    conta = new Conta(updateID, nome, cpf, cidade, saldo);
                     if (crud.update(conta)) {
                         System.out.println("Conta atualizada com sucesso.");
                     } else {

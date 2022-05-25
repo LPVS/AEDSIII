@@ -123,14 +123,15 @@ public class CRUD {
     }
 
     // Recebe o ID de uma conta e "deleta" o registro do arquivo
+    /**
+     * "Deleta o registro", alterando sua lapide
+     * @param id : ID da conta a ser deletada
+     * @return TRUE caso consiga apagar
+     */
     public boolean delete(int id) {
         try {
-            long position;
             char lapide;
-            byte[] array;
-            int size;
-            Conta tmpConta;
-
+            
             arq = new RandomAccessFile(fileName, "rw");
             arq.seek(4); // Pula o cabecalho
 
@@ -138,32 +139,22 @@ public class CRUD {
             Index index = new Index();
             long end = index.binSearch(id);
 
-            while (arq.getFilePointer() < arq.length()) {
+            // Confere se o ID não existe
+            if (end == -1) {
+                return false;
+            }
+            arq.seek(end);
+            lapide = arq.readChar(); // Guarda o estado da lapide
 
-                position = arq.getFilePointer();
-                lapide = arq.readChar();
-                size = arq.readInt();
-                array = new byte[size];
-                arq.read(array);
-
-                // Confere se o registro nao esta "apagado"
-                if (lapide != '*') {
-
-                    tmpConta = new Conta();
-                    tmpConta.fromByteArray(array);
-
-                    // confere se o ID é o mesmo do parametro
-                    if (tmpConta.getId() == id) {
-                        arq.seek(position); // vai ate a lapide
-                        arq.writeChar('*'); // "deleta" o arquivo
-                        arq.close();
-                        return true;
-                    }
-                }
+            // Confere se o registro já nao esta "apagado"
+            if (lapide == '*') {
+                return false;
             }
 
+            arq.seek(end); // vai ate a lapide
+            arq.writeChar('*'); // "deleta" o arquivo
             arq.close();
-            return false;
+            return true;
 
         } catch (IOException e) {
             System.out.println("ERRO!: Falha ao atualizar lápide de conta (DELETE)");
@@ -172,7 +163,12 @@ public class CRUD {
 
     }
 
-    
+
+/**
+ * Confere se o registro esta salvo no arquivo de indice
+ * @param id : id do registro a ser persquisado
+ * @return : TRUE se existir, FALSE caso não exista
+ */
     public boolean isSaved(int id) {
         Index index = new Index();
         if (index.binSearch(id) > 0) {
@@ -192,23 +188,31 @@ public class CRUD {
             arq = new RandomAccessFile(fileName, "rw");
             arq.seek(4);
 
-            while (arq.getFilePointer() < arq.length()) {
+            // Abre o arquivo index e procura o id
+            Index index = new Index();
+            long end = index.binSearch(id);
 
-                lapide = arq.readChar();
-                size = arq.readInt();
-                array = new byte[size];
-                arq.read(array);
-
-                if (lapide != '*') {
-                    tmp = new Conta();
-                    tmp.fromByteArray(array);
-
-                    if (tmp.getId() == id) {
-                        return tmp;
-                    }
-                }
+            // Confere se o ID não existe
+            if (end == -1) {
+                return null;
             }
-            return null;
+            arq.seek(end);
+
+            lapide = arq.readChar(); // Guarda o estado da lapide
+            size = arq.readInt(); // guarda o tamanho do registro
+            array = new byte[size]; // Cria array com tamanho do registro
+            arq.read(array);
+
+            // Confere se o registro nao esta "apagado"
+            if (lapide == '*') {
+                return null;
+            }
+
+            // Cria uma conta temporaria que recebe o registro lido
+            tmp = new Conta();
+            tmp.fromByteArray(array);
+
+            return tmp;
 
         } catch (IOException e) {
             System.out.println("ERRO!: Falha ao encontrar a conta desejada (READ_ID)");
@@ -216,13 +220,17 @@ public class CRUD {
         }
     }
 
-    // Recebe um valor e duas contas, uma para debitar e outra para creditar, e
-    // atualiza os registros das duas
+    /**
+     * Recebe o ID de duas contas e o valor a ser transferido, atualiza o registro de ambas
+     * @param id1 : ID da primeira conta (Debitar)
+     * @param id2 : ID da segunda conta (Creditar)
+     * @param valor : Valor da transacao (Dinheiro)
+     */
     public void bankTransfer(int id1, int id2, int valor) {
         Conta debitar = readId(id1);
         Conta creditar = readId(id2);
 
-        if (debitar != null && creditar != null) {
+        if (debitar != null && creditar != null && valor > 0) {
             debitar.transferDone();
             creditar.transferDone();
             debitar.balance(-1 * valor);
