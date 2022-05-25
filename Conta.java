@@ -5,7 +5,7 @@ public class Conta {
     protected int idConta;
     protected String nomePessoa;
     protected String cpf;
-    protected String cidade;
+    protected String estado;
     protected int transferenciasRealizadas;
     protected int saldoConta;
 
@@ -14,16 +14,16 @@ public class Conta {
         idConta = 0;
         nomePessoa = "";
         cpf = "";
-        cidade = "";
+        estado = "";
         transferenciasRealizadas = 0;
         saldoConta = 0;
     }
 
-    public Conta(int id, String nome, String cpf, String cidade, int saldo) {
+    public Conta(int id, String nome, String cpf, String estado, int saldo) {
         this.idConta = id;
         this.nomePessoa = nome;
         this.cpf = cpf;
-        this.cidade = cidade;
+        this.estado = estado;
         this.transferenciasRealizadas = 0;
         this.saldoConta = saldo;
     }
@@ -35,7 +35,7 @@ public class Conta {
         dos.writeInt(idConta);
         dos.writeUTF(nomePessoa);
         dos.writeUTF(cpf);
-        dos.writeUTF(cidade);
+        dos.writeUTF(estado);
         dos.writeInt(transferenciasRealizadas);
         dos.writeInt(saldoConta);
 
@@ -49,7 +49,7 @@ public class Conta {
         idConta = dis.readInt();
         nomePessoa = dis.readUTF();
         cpf = dis.readUTF();
-        cidade = dis.readUTF();
+        estado = dis.readUTF();
         transferenciasRealizadas = dis.readInt();
         saldoConta = dis.readInt();
     }
@@ -67,7 +67,7 @@ public class Conta {
     }
 
     public String toString() {
-        return "\nID: " + idConta + "\nNome: " + nomePessoa + "\nCPF: " + cpf + "\nCidade: " + cidade
+        return "\nID: " + idConta + "\nNome: " + nomePessoa + "\nCPF: " + cpf + "\nEstado: " + estado
                 + "\nTransferencias: " + transferenciasRealizadas + "\nSaldo: " + saldoConta;
     }
 }
