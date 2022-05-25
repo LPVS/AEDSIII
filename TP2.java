@@ -13,7 +13,8 @@ public class TP2 {
         System.out.println("[4] Atualizar um registro (Informar ID, Nome, CPF, Cidade e Saldo)");
         System.out.println("[5] Deletar um registro (Informar ID)");
         System.out.println("[6] Buscar na lista");
-        System.out.println("[7] Finalizar programa \n>Seja bem vindo, por favor escolha o número que deseja:");
+        System.out.println("[7] Ordenação Externa");
+        System.out.println("[8] Finalizar programa \n>Seja bem vindo, por favor escolha o número que deseja:");
     }
 
     // Método para ler o cabecalho do arquivo
@@ -40,6 +41,7 @@ public class TP2 {
         int saldo;
         int id = getId();
         InvertedList invertedList = new InvertedList();
+        ExternalSort externalSort = new ExternalSort();
         do {
             menu();
 
@@ -61,10 +63,10 @@ public class TP2 {
                     crud.create(conta, id);
 
                     // lista de nomes
-                    invertedList.createListFile(nome, (byte) id, "invertedNameList.db"); 
+                    invertedList.createListFile(nome, (byte) id, "invertedNameList.db");
 
                     // lista de cidades
-                    invertedList.createListFile(cidade, (byte) id, "invertedCityList.db"); 
+                    invertedList.createListFile(cidade, (byte) id, "invertedCityList.db");
                     break;
                 // Tranferencia
                 case 2:
@@ -148,8 +150,12 @@ public class TP2 {
                         System.out.println("A opcao escolhida nao foi valida");
                     }
                     break;
-                // Finalizar
                 case 7:
+                    externalSort.balancedIntercalation(10, 2);
+                    break;
+
+                // Fechando programa
+                case 8:
                     System.out.println("\nEncerrando programa");
                     break;
                 default:
@@ -157,7 +163,7 @@ public class TP2 {
                     op = 0;
                     break;
             }
-        } while (op != 7);
+        } while (op != 8);
         scan.close();
     }
 }
